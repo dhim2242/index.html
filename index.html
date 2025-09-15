@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 كلمة إنجليزية للمهنيين</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            direction: rtl; /* Set direction to right-to-left for Arabic */
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+<div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl p-8 transform transition-all duration-300 hover:scale-105">
+    <!-- عنوان التطبيق -->
+    <div class="text-center mb-6">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">50 كلمة إنجليزية للمهنيين</h1>
+        <p class="text-lg text-gray-600">تعلّم الكلمات الأساسية لبيئة العمل</p>
+    </div>
+
+    <!-- مؤشر التقدم -->
+    <div class="text-center text-gray-500 mb-8">
+        <span id="progress-text">الكلمة 1 من 50</span>
+    </div>
+
+    <!-- عرض الكلمة والترجمة -->
+    <div class="text-center mb-8">
+        <h2 id="english-word" class="text-5xl sm:text-6xl font-extrabold text-blue-600 mb-2 transition-transform transform-gpu duration-500 scale-100"></h2>
+        <p id="arabic-translation" class="text-2xl sm:text-3xl font-medium text-gray-700 transition-opacity duration-500 opacity-100"></p>
+    </div>
+
+    <!-- أزرار التحكم -->
+    <div class="flex flex-col items-center space-y-4">
+        <!-- زر تشغيل النطق -->
+        <button id="play-button" class="bg-blue-600 text-white p-4 rounded-full shadow-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300 transform-gpu hover:scale-110">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd" />
+            </svg>
+        </button>
+
+        <!-- أزرار التنقل -->
+        <div class="flex items-center space-x-4">
+            <button id="prev-button" class="bg-gray-300 text-gray-700 px-6 py-2 rounded-full font-bold shadow-md hover:bg-gray-400 focus:outline-none focus:ring-4 focus:ring-gray-200 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                السابق
+            </button>
+            <button id="next-button" class="bg-blue-500 text-white px-6 py-2 rounded-full font-bold shadow-md hover:bg-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-300 transition-all duration-300">
+                التالي
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // قائمة الكلمات مع ترجمتها
+    const words = [
+        { english: "Innovation", arabic: "الابتكار" },
+        { english: "Strategy", arabic: "الاستراتيجية" },
+        { english: "Efficiency", arabic: "الكفاءة" },
+        { english: "Collaboration", arabic: "التعاون" },
+        { english: "Networking", arabic: "التواصل المهني" },
+        { english: "Negotiation", arabic: "التفاوض" },
+        { english: "Deadline", arabic: "الموعد النهائي" },
+        { english: "Prioritize", arabic: "إعطاء الأولوية" },
+        { english: "Feedback", arabic: "التغذية الراجعة" },
+        { english: "Initiative", arabic: "المبادرة" },
+        { english: "Productive", arabic: "منتج" },
+        { english: "Synergy", arabic: "التآزر" },
+        { english: "Accountable", arabic: "مسؤول" },
+        { english: "Resilience", arabic: "المرونة" },
+        { english: "Leadership", arabic: "القيادة" },
+        { english: "Consultant", arabic: "مستشار" },
+        { english: "Marketing", arabic: "التسويق" },
+        { english: "Client", arabic: "عميل" },
+        { english: "Vendor", arabic: "بائع" },
+        { english: "Budget", arabic: "الميزانية" },
+        { english: "Revenue", arabic: "الإيرادات" },
+        { english: "Expenditure", arabic: "النفقات" },
+        { english: "Acquisition", arabic: "الاستحواذ" },
+        { english: "Merger", arabic: "الاندماج" },
+        { english: "Competitor", arabic: "منافس" },
+        { english: "Equity", arabic: "حقوق الملكية" },
+        { english: "Portfolio", arabic: "محفظة أعمال" },
+        { english: "Analyst", arabic: "محلل" },
+        { english: "Projection", arabic: "توقع/إسقاط" },
+        { english: "Forecast", arabic: "تنبؤ" },
+        { english: "Outcome", arabic: "نتيجة" },
+        { english: "Stakeholder", arabic: "صاحب مصلحة" },
+        { english: "Compliance", arabic: "الامتثال" },
+        { english: "Logistics", arabic: "اللوجستيات" },
+        { english: "Supply chain", arabic: "سلسلة التوريد" },
+        { english: "Resource", arabic: "مورد" },
+        { english: "Delegate", arabic: "تفويض" },
+        { english: "Recruit", arabic: "توظيف" },
+        { english: "Onboarding", arabic: "إلحاق موظف جديد" },
+        { english: "Termination", arabic: "إنهاء الخدمة" },
+        { english: "Performance", arabic: "الأداء" },
+        { english: "Assessment", arabic: "التقييم" },
+        { english: "Mentoring", arabic: "التوجيه" },
+        { english: "Crisis", arabic: "أزمة" },
+        { english: "Solution", arabic: "حل" },
+        { english: "Disruptive", arabic: "مبتكر/مُزعزع" },
+        { english: "Paradigm", arabic: "نموذج فكري" },
+        { english: "Scalable", arabic: "قابل للتوسع" },
+        { english: "Sustainable", arabic: "مستدام" },
+        { english: "Benchmark", arabic: "معيار" }
+    ];
+
+    // عناصر HTML
+    const englishWordEl = document.getElementById('english-word');
+    const arabicTranslationEl = document.getElementById('arabic-translation');
+    const playButton = document.getElementById('play-button');
+    const prevButton = document.getElementById('prev-button');
+    const nextButton = document.getElementById('next-button');
+    const progressTextEl = document.getElementById('progress-text');
+    
+    let currentWordIndex = 0;
+
+    // دالة لعرض الكلمة الحالية
+    function displayWord() {
+        if (currentWordIndex < 0) {
+            currentWordIndex = 0;
+        } else if (currentWordIndex >= words.length) {
+            currentWordIndex = words.length - 1;
+        }
+
+        const currentWord = words[currentWordIndex];
+        englishWordEl.textContent = currentWord.english;
+        arabicTranslationEl.textContent = currentWord.arabic;
+        progressTextEl.textContent = `الكلمة ${currentWordIndex + 1} من ${words.length}`;
+
+        // إخفاء/إظهار الأزرار
+        prevButton.disabled = (currentWordIndex === 0);
+        nextButton.disabled = (currentWordIndex === words.length - 1);
+    }
+
+    // دالة لتشغيل النطق
+    function speakWord() {
+        const textToSpeak = englishWordEl.textContent;
+        const utterance = new SpeechSynthesisUtterance(textToSpeak);
+        utterance.lang = 'en-US'; // تحديد اللغة الإنجليزية
+        utterance.rate = 0.8; // ضبط سرعة النطق
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // إضافة المستمعين للأحداث
+    nextButton.addEventListener('click', () => {
+        if (currentWordIndex < words.length - 1) {
+            currentWordIndex++;
+            displayWord();
+        }
+    });
+
+    prevButton.addEventListener('click', () => {
+        if (currentWordIndex > 0) {
+            currentWordIndex--;
+            displayWord();
+        }
+    });
+
+    playButton.addEventListener('click', speakWord);
+
+    // عرض أول كلمة عند تحميل الصفحة
+    displayWord();
+</script>
+
+</body>
+</html>
